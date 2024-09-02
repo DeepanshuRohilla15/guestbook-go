@@ -9,8 +9,6 @@ RUN go get github.com/codegangsta/negroni \
 # Set the working directory
 WORKDIR /app
 
-# Copy go.mod and go.sum files if present to manage dependencies
-COPY go.mod go.sum ./
 
 # Download Go module dependencies
 RUN go mod download
