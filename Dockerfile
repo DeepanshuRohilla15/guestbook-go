@@ -4,8 +4,6 @@ FROM golang:1.20 AS builder
 # Set the working directory
 WORKDIR /app
 
-COPY go.mod ./
-RUN go mod download
 
 COPY *.go ./
 
