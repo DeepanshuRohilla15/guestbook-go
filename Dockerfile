@@ -4,8 +4,6 @@ FROM golang:1.20 AS builder
 # Set the working directory
 WORKDIR /app
 
-# Download Go module dependencies
-RUN go mod download
 
 # Copy the source code into the container
 COPY ./main.go .
