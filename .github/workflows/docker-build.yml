@@ -34,7 +34,7 @@ jobs:
         CGO_ENABLED=0 GOOS=linux go build -o main .
 
     - name: Build Docker image
-      run: docker build -t myusername/myapp:latest .
+      run: docker build -t deepanshu2000/guestbook-go:latest .
 
     - name: Log in to Docker Hub
       uses: docker/login-action@v2
