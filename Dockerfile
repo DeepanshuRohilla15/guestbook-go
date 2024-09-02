@@ -12,19 +12,39 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM golang:1.10.0
+# Build Stage
+FROM golang:1.20 AS builder
+
+# Install dependencies
 RUN go get github.com/codegangsta/negroni \
            github.com/gorilla/mux \
            github.com/xyproto/simpleredis/v2
+
+# Set the working directory
 WORKDIR /app
-ADD ./main.go .
+
+# Copy the source code
+COPY ./main.go .
+
+# Build the Go application
 RUN CGO_ENABLED=0 GOOS=linux go build -o main .
 
+# Final Stage
 FROM scratch
+
+# Set the working directory
 WORKDIR /app
-COPY --from=0 /app/main .
+
+# Copy the binary from the build stage
+COPY --from=builder /app/main .
+
+# Copy additional files into the image
 COPY ./public/index.html public/index.html
 COPY ./public/script.js public/script.js
 COPY ./public/style.css public/style.css
+
+# Define the command to run the application
 CMD ["/app/main"]
+
+# Expose the port the app runs on
 EXPOSE 3000
