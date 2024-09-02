@@ -4,9 +4,19 @@ on:
   push:
     branches:
       - main  # Trigger the workflow on push to the main branch
+    # Only run when the commit message contains `BUILD_CONTAINER_IMAGE`
+    # This condition is defined in the job level
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main  # Trigger the workflow when a PR is merged into the main branch
 
 jobs:
   build:
+    if: |
+      github.event_name == 'pull_request' && github.event.pull_request.merged == true ||
+      (github.event_name == 'push' && contains(github.event.head_commit.message, 'BUILD_CONTAINER_IMAGE'))
     runs-on: ubuntu-latest
     
     steps:
