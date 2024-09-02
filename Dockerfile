@@ -1,14 +1,11 @@
 # Stage 1: Build the Go application
 FROM golang:1.20 AS builder
 
-# Install required Go packages
-RUN go get github.com/codegangsta/negroni \
-           github.com/gorilla/mux \
-           github.com/xyproto/simpleredis/v2
-
 # Set the working directory
 WORKDIR /app
 
+# Copy go.mod and go.sum files to download dependencies
+COPY go.mod go.sum ./
 
 # Download Go module dependencies
 RUN go mod download
